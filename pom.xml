@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+   <parent>
+        <groupId>cnav.architech.usilog.socle.pom</groupId>
+        <artifactId>parentpom-base</artifactId>
+        <version>4.0-RC1</version>
+        <relativePath />
+    </parent>
+    
+    <properties>
+    <parent.base.directory>${project.parent.basedir}</parent.base.directory>
+	</properties>
+
+	<groupId>cnav.gipur.pci.batch</groupId>
+	<artifactId>generator-profil-batch</artifactId>
+	<version>1.7-SNAPSHOT</version>
+	<name>generator-profil-batch</name>
+        <packaging>pom</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>releases</name>
+            <url>${releaseUrl}</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>snapshots</name>
+            <url>${snapshotUrl}</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+	<scm>
+		<connection>scm:svn:http://${svn.hostname}/${svnRepository}/cnav/gipur/pci/batch/${project.artifactId}/trunk</connection>
+	</scm>
+   
+
+    <url>http://hotsname.n18.an.cnav</url>
+
+    <ciManagement>
+        <url>http://jenkinsm30.dev.n18.an.cnav:8080/jobs/???</url>
+    </ciManagement>
+
+
+    <modules>
+        <module>generator-profil-batch-spring</module>
+        <module>generator-profil-batch-core</module>
+        <module>generator-profil-batch-conf</module>
+        <module>generator-profil-batch-assemble</module>
+    </modules>
+   
+</project>
