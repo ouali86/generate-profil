@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:ldap="http://www.springframework.org/schema/ldap" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop.xsd
+         http://www.springframework.org/schema/ldap
+         http://www.springframework.org/schema/ldap/spring-ldap.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/util
+         http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- DEBUT LDAP REPOSITORY -->
+	<bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="urls" value="${batch.datasource.ldap.host}" />
+		<property name="base" value="${batch.datasource.ldap.base}" />
+		<property name="userDn" value="${batch.datasource.ldap.user}" />
+		<property name="password" value="${batch.datasource.ldap.password}" />
+	</bean>
+
+	<bean id="context" factory-bean="contextSourceTarget"
+		factory-method="getReadOnlyContext" />
+
+	<bean id="singleContextSource"
+		class="org.springframework.ldap.core.support.SingleContextSource">
+		<constructor-arg ref="context" />
+	</bean>
+
+	<bean id="dirContextProcessor"
+		class="org.springframework.ldap.control.PagedResultsDirContextProcessor">
+		<constructor-arg type="int"
+			value="${batch.datasource.ldap.page.size}" />
+	</bean>
+
+	
+	<!-- FIN LDAP REPOSITORY -->
+
+	<!-- DEBUT JDBC REPOSITORY -->
+	<bean id="jdbcDataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxPoolSize" value="50" />
+		<property name="minPoolSize" value="3" />
+	</bean>
+	<bean id="jdbcRepository" class="cnav.gipur.pci.batch.repository.impl.JdbcRepositoryImpl">
+		<property name="dataSource" ref="jdbcDataSource" />
+		<constructor-arg value="${query.fc.transition}" />
+		<constructor-arg value="${query.pci.access}" />
+	</bean>
+	<!-- FIN JDBC REPOSITORY -->
+
+</beans>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: cnav.gipur.pci.generator.stat.batch.job.StatJobTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.805 sec - in cnav.gipur.pci.generator.stat.batch.job.StatJobTest

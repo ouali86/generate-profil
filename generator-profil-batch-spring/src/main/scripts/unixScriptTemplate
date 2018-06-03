@@ -1,0 +1,129 @@
+#!/bin/ksh
+@LICENSE_HEADER@
+#===============================================================================
+#	La variable BASEDIR doit etre definie en dehors du ksh
+#   Elle precise le repertoire dans lequel l'applicatif a ete installe
+#===============================================================================
+#===============================================================================
+#	Variable de travail
+#===============================================================================
+REPLOG=$BASEDIR/log
+REPO=$BASEDIR/lib
+#===============================================================================
+#	Parametrages Messages du batch
+#===============================================================================
+#========================= Messages
+Msg_Aide="???????????? pour le traitement de ????????????"
+Msg_Syntaxe="Syntaxe: [-h | -H | -? | -v] "
+Msg_NbParametres=?
+#========================= Recuperation du nom du script
+NomScript=`basename $0 .ksh`
+#========================= Nom de la log par defaut
+LogKsh=${REPLOG}/${NomScript}`date +%Y%m%d`.log
+# Message de debut script
+print "Debut a `date`" | tee $LogKsh 
+
+#===============================================================================
+#	Parametrages JAVA du batch
+#===============================================================================
+#======= CLASSPATH SPECIFIQUE AU BATCH =========================================
+CLASSPATH="$BASEDIR"/conf:@CLASSPATH@:
+#===============================================================================
+#	FIN Parametrages JAVA du batch
+#===============================================================================
+
+#===============================================================================
+# Corps du script
+#===============================================================================
+
+#===============================================================================
+# Procedure affichage d'aide 
+#===============================================================================
+AfficheAide ()
+{
+  print ${Msg_Aide}
+  print ${Msg_Syntaxe} $NomScript.ksh 
+}
+
+#===============================================================================
+# Verification du nombre de parametres
+#===============================================================================
+case $# in
+# Debut -- A desactive si le traitement n'accepte pas aucun parametre 
+0) 	print " Aucun parametre " | tee -a $LogKsh 
+		;;
+# Fin -- A desactiver si le traitement n'accepte pas aucun parametre 
+
+1) case $1 in 
+   	-h | -H | "-?") AfficheAide 
+			exit $0;;
+
+# Debut -- A desactiver si le traitement n'accepte pas 1 parametre 
+		*) 	PARAM_1=$1
+		print ${Msg_NbParametres}" parametres - ??????????? :"${PARAM_1} | tee -a $LogKsh 
+		;;
+# Fin -- A desactiver si le traitement n'accepte pas 1 parametre 
+# Debut -- A desactiver si le traitement accepte 1 parametre 
+		*) 	printf "Ce script prend ${Msg_NbParametres} ou ? parametre(s) : \n" | tee -a $LogKsh 
+			printf "Attention, fin anormale le `date`\n" | tee -a $LogKsh 
+			exit ${3};;
+# Fin -- A desactiver si le traitement accepte 1 parametre 
+
+
+   esac
+   ;;
+
+# Debut -- A desactiver si le traitement n'accepte pas 2 parametres
+2) 	PARAM_1=$1
+	PARAM_2=$2
+		print ${Msg_NbParametres}" parametres : " | tee -a $LogKsh 
+		print  " - ?????????? :"${PARAM_1} | tee -a $LogKsh 
+		print  " - ?????????? :"${PARAM_2} | tee -a $LogKsh 
+		;;
+# Fin -- A desactiver si le traitement n'accepte pas 2 parametres 
+		
+*) printf "Ce script prend ${Msg_NbParametres} ou 0 ????? A corriger suivant le traitement ????? parametre(s): \n" | tee -a $LogKsh 
+   printf "Attention, fin anormale le `date`\n" | tee -a $LogKsh 
+   exit ${3};;
+
+esac
+
+#===============================================================================
+# Corps du script
+#===============================================================================
+
+# Lancement du batch Java
+java $JAVA_OPTS @EXTRA_JVM_ARGUMENTS@ \
+  -classpath "$CLASSPATH" \
+  -Dapp.name="@APP_NAME@" \
+  -Dapp.pid="$$" \
+  -Dapp.repo="$REPO" \
+  -Dapp.home="$BASEDIR" \
+  -Dbasedir="$BASEDIR" \
+  @MAINCLASS@ \
+  @APP_ARGUMENTS@"$@"@UNIX_BACKGROUND@  >> $LogKsh
+  
+CODE_RETOUR=$?
+if [ ${CODE_RETOUR} -eq 0 ]
+then
+  print "\n Traitement OK " | tee -a $LogKsh
+  print "\n Fin normale a `date`" | tee -a $LogKsh
+else
+if [ ${CODE_RETOUR} -eq 51 ]
+then
+  print "\n Traitement OK avec des signalements" | tee -a $LogKsh
+  print "\n ==> Aller voir dans le suivi batch <==" | tee -a $LogKsh
+  print "\n Fin normale a `date`" | tee -a $LogKsh
+  # pour $U qui n'accepte que 0 ou differe de 0 (==> Incident?))
+  CODE_RETOUR=0
+else
+  print "\n------------------------------------------------" | tee -a $LogKsh 
+  print "\nErreur sur Traitement                 "           | tee -a $LogKsh 
+  print "\n------------------------------------------------" | tee -a $LogKsh  
+
+  print "\n------------------------------------------------" | tee -a $LogKsh  
+  print "\nATTENTION - Fin anormale le $(date) "             | tee -a $LogKsh 
+  print "\n------------------------------------------------" | tee -a $LogKsh  
+fi
+fi
+exit ${CODE_RETOUR}

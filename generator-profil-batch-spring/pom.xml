@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cnav.architech.usilog.socle.pom</groupId>
+		<artifactId>parentpom-batch</artifactId>
+		<version>4.0-Final</version>
+		<relativePath />
+	</parent>
+	<groupId>cnav.gipur.pci.batch</groupId>
+	<artifactId>generator-profil-batch-spring</artifactId>
+	<version>1.7-SNAPSHOT</version>
+	<name>generator-profil-batch-spring</name>
+	<description />
+	<packaging>jar</packaging>
+
+	<scm>
+		<connection>scm:svn:http://${svn.hostname}/${svnRepository}/cnav/gipur/pci/batch/${project.artifactId}/trunk</connection>
+	</scm>
+
+
+	<properties>
+		<wiremock.version>2.0.10-beta</wiremock.version>
+		<jetty.plugin.version>9.2.0.v20140526</jetty.plugin.version>
+		<jersey.version>1.18</jersey.version>
+		<postgresql.version>9.3-1102-jdbc41</postgresql.version>
+	</properties>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
+		</dependency>
+
+		<!-- PostgreSQL driver -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cnav.gipur.pci.batch</groupId>
+			<artifactId>generator-profil-batch-core</artifactId>
+			<version>1.7-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.stefanbirkner</groupId>
+			<artifactId>system-rules</artifactId>
+			<version>1.16.0</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<!-- environement specific files to not package -->
+						<exclude>configuration.properties</exclude>
+						<exclude>log4j2.xml</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<configuration>
+					<programs>
+						<program>
+							<commandLineArguments>
+								<commandLineArgument>classpath:/jobs/job.xml</commandLineArgument>
+								<commandLineArgument>exampleJob</commandLineArgument>
+							</commandLineArguments>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>maven-download-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

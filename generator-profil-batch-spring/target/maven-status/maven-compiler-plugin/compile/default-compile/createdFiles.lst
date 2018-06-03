@@ -1,0 +1,8 @@
+cnav\gipur\pci\generator\stat\batch\writer\StatFlatFileHeaderCallback.class
+cnav\gipur\pci\generator\stat\batch\mapper\ReponseIapDtoRowMapper.class
+cnav\gipur\pci\generator\stat\batch\listener\StatJobExecutionListener.class
+cnav\gipur\pci\generator\stat\batch\writer\CvsMapFileItemWriter.class
+cnav\gipur\pci\generator\stat\batch\processor\StatProcessor.class
+cnav\gipur\pci\generator\stat\batch\reader\StatReader.class
+cnav\gipur\pci\generator\stat\batch\mapper\UserDtoRowMapper.class
+cnav\gipur\pci\generator\stat\batch\reader\ResultReader.class

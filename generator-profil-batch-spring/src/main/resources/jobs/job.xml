@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:b="http://www.springframework.org/schema/batch"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch 
+						http://www.springframework.org/schema/batch/spring-batch.xsd
+	    				http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:datasource.xml" />
+	<import resource="classpath:launch-context.xml" />
+
+	<!-- increment automatique de l'id du job -->
+	<bean id="idIncrementer"
+		class="org.springframework.batch.core.launch.support.RunIdIncrementer" />
+
+	<!-- DEBUT DATES -->
+	<bean id="currentDate" class="java.util.Date" />
+	<bean id="dateFormaterForFileName" class="java.text.SimpleDateFormat">
+		<constructor-arg value="ddMMyyyy" />
+	</bean>
+	<bean id="currentDateFormated" class="java.lang.String"
+		factory-bean="dateFormaterForFileName" factory-method="format">
+		<constructor-arg ref="currentDate" />
+	</bean>
+	<bean id="currentDateTime" class="org.joda.time.DateTime">
+		<constructor-arg ref="currentDate" />
+	</bean>
+	<bean id="toDateTime" class="org.joda.time.DateTime" factory-bean="currentDateTime"
+		factory-method="withTime">
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+	</bean>
+	<!-- <bean id="toDateTime" class="org.joda.time.DateTime" factory-bean="currentStartDateTime" -->
+	<!-- factory-method="minusDays"> -->
+	<!-- <constructor-arg value="1" /> -->
+	<!-- </bean> -->
+	<bean id="fromDateTime" class="org.joda.time.DateTime"
+		factory-bean="toDateTime" factory-method="minusDays">
+		<constructor-arg value="${period.calcul.stat}" />
+	</bean>
+	<bean id="fromDate" class="java.util.Date" factory-bean="fromDateTime"
+		factory-method="toDate" />
+	<bean id="toDate" class="java.util.Date" factory-bean="toDateTime"
+		factory-method="toDate" />
+	<!-- FIN DATES -->
+
+	<bean id="statistic" class="cnav.gipur.pci.batch.profil.impl.StatisticImpl"
+		scope="singleton">
+		<property name="currentDate" ref="currentDate" />
+		<property name="fromDate" value="#{fromDate}" />
+		<property name="toDate" value="#{toDate}" />
+		<property name="period" value="${period.calcul.stat}" />
+		<property name="nbrAccesComptePeriod" value="0" />
+		<property name="nbrAccesCompteFcPeriod" value="0" />
+		<property name="nbrComptePeriod" value="0" />
+		<property name="nbrCompteLocauxPeriod" value="0" />
+		<property name="nbrCompteFcPeriod" value="0" />
+		<property name="nbrCompteSuppPeriod" value="0" />
+		<property name="nbrCompteHommePeriod" value="0" />		
+		<property name="nbrCompteFemmePeriod" value="0" />
+		<property name="nbrCompteMoin45Period" value="0" />
+		<property name="nbrCompteEntre4555Period" value="0" />
+		<property name="nbrComptePlus55Period" value="0" />
+		<property name="nbrTransFcPeriod" value="0" />
+		<property name="nbrCompteGlobal" value="0" />
+		<property name="nbrCompteLocauxGlobal" value="0" />
+		<property name="nbrCompteFcGlobal" value="0" />
+		<property name="nbrCompteSuppGlobal" value="0" />
+		<property name="nbrCompteHommeGlobal" value="0" />
+		<property name="nbrCompteFemmeGlobal" value="0" />
+		<property name="nbrCompteMoin45Global" value="0" />
+		<property name="nbrCompteEntre4555Global" value="0" />
+		<property name="nbrComptePlus55Global" value="0" />
+		<property name="nbrTransFcGlobal" value="0" />
+		<!-- JDBC REPO -->
+		<property name="JdbcRepository" ref="jdbcRepository" />
+	</bean>
+
+	<bean id="statFlatFileHeaderCallback"
+		class="cnav.gipur.pci.generator.stat.batch.writer.StatFlatFileHeaderCallback">
+		<property name="delimiteur" value="${colonne.delimiteur}" />
+		<!-- csv header -->
+		<property name="colonneDate" value="${colonne.date}" />
+		<property name="colonneDebutPeriode" value="${colonne.debut.periode}" />
+		<property name="colonneFinPeriode" value="${colonne.fin.periode}" />
+		<property name="colonneNbrComptePeriode" value="${colonne.nbr.compte.periode}" />
+		<property name="colonneNbrCompteLocauxPeriode" value="${colonne.nbr.compte.locaux.periode}" />
+		<property name="colonneNbrCompteFcPeriode" value="${colonne.nbr.compte.fc.periode}" />
+		<property name="colonneRatioCompteFcPeriode" value="${colonne.ratio.compte.fc.periode}" />
+		<property name="colonneNbrCompteSuppPeriode" value="${colonne.nbr.compte.supp.periode}" />
+		<property name="colonneNbrCompteHomme" value="${colonne.nbr.compte.homme.periode}" />
+		<property name="colonneRatioCompteHommePeriode" value="${colonne.ratio.compte.homme.periode}" />
+		<property name="colonneRatioCompteFemmePeriode" value="${colonne.ratio.compte.femme.periode}" />
+		<property name="colonneRatioCompteMoin45Periode" value="${colonne.ratio.compte.moin.45.periode}" />
+	
+		
+		<property name="colonneRatioCompteEntre4555Periode" value="${colonne.ratio.compte.entre.45.55.periode}" />
+		<property name="colonneRatioComptePlus55Periode" value="${colonne.ratio.compte.plus.55.periode}" />
+		<property name="colonneNbrCompteEntre4555Periode" value="${colonne.nbr.compte.entre.45.55.periode}" />
+		<property name="colonneNbrComptePlus55Periode" value="${colonne.nbr.compte.plus.55.periode}" />
+		
+		<property name="colonneNbrTransFcPeriode" value="${colonne.nbr.trans.fc.periode}" />
+		<property name="colonneNbrCompteGlobal" value="${colonne.nbr.compte.global}" />
+		<property name="colonneNbrCompteLocauxGlobal" value="${colonne.nbr.compte.locaux.global}" />
+		<property name="colonneNbrCompteFcGlobal" value="${colonne.nbr.compte.fc.global}" />
+		<property name="colonneRatioCompteFcGlobal" value="${colonne.ratio.compte.fc.global}" />
+		<property name="colonneNbrCompteSuppGlobal" value="${colonne.nbr.compte.supp.global}" />
+		<property name="colonneRatioCompteHommeGlobal" value="${colonne.ratio.compte.homme.global}" />
+		<property name="colonneRatioCompteFemmeGlobal" value="${colonne.ratio.compte.femme.global}" />
+		<property name="colonneRatioCompteMoin45Global" value="${colonne.ratio.compte.moin.45.global}" />
+		<property name="colonneRatioCompteEntre4555Global" value="${colonne.ratio.compte.entre.45.55.global}" />
+		<property name="colonneRatioComptePlus55Global" value="${colonne.ratio.compte.plus.55.global}" />
+		<property name="colonneNbrTransFcGlobal" value="${colonne.nbr.trans.fc.global}" />
+	</bean>
+
+	<!-- Lecture BD -->
+	<bean id="profilReader" class="org.springframework.batch.item.database.JdbcPagingItemReader"
+		scope="step">
+		<property name="dataSource" ref="jdbcDataSource" />
+<!-- 		<property name="sql" value="${query.list.assure}" /> -->
+		<property name="queryProvider">
+		  <bean
+			class="org.springframework.batch.item.database.support.PostgresPagingQueryProvider">
+
+			<property name="selectClause" value="${query.list.assure.selectClause}" />
+				<property name="fromClause" value="${query.list.assure.fromClause}" />
+				<property name="sortKeys">
+					<map>
+						<entry key="${query.list.assure.fromClause.sortKeys.column}"
+							value="${query.list.assure.fromClause.sortKeys.order}" />
+					</map>
+				</property>
+		  </bean>
+		</property>
+		<property name="pageSize" value="${query.list.assure.pagination.size}" />
+		<property name="rowMapper">
+			<bean
+				class="cnav.gipur.pci.generator.stat.batch.mapper.UserDtoRowMapper" />
+		</property>
+	</bean>
+	
+	<!-- -->
+	<!-- process des donnees -->
+	<bean id="statProcessor"
+		class="cnav.gipur.pci.generator.stat.batch.processor.StatProcessor"
+		scope="step">
+		<property name="statistic" ref="statistic" />
+	</bean>
+
+	<!-- ecriture des données -->
+	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<!-- write to this csv file -->
+		<property name="resource"
+			value="file:${csv.file.path}#{currentDateFormated}.csv" />
+		<property name="shouldDeleteIfExists" value="true" />
+		<property name="headerCallback" ref="statFlatFileHeaderCallback" />
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="${colonne.delimiteur}" />
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+							value="currentDate, fromDate, toDate, nbrComptePeriod, nbrCompteLocauxPeriod, nbrCompteFcPeriod, ratioCompteFcPeriod, nbrCompteSuppPeriod, ratioCompteHommePeriod, ratioCompteFemmePeriod, ratioCompteMoin45Period, ratioCompteEntre4555Period, ratioComptePlus55Period, nbrTransFcPeriod, nbrCompteGlobal, nbrCompteLocauxGlobal, nbrCompteFcGlobal, ratioCompteFcGlobal, nbrCompteSuppGlobal, ratioCompteHommeGlobal, ratioCompteFemmeGlobal, ratioCompteMoin45Global, ratioCompteEntre4555Global, ratioComptePlus55Global, nbrTransFcGlobal" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cvsMapFileItemWriter"
+		class="cnav.gipur.pci.generator.stat.batch.writer.CvsMapFileItemWriter"
+		scope="step">
+		<property name="filePath" value="${csv.file.path}#{currentDateFormated}.csv" />
+		<property name="colonneDate" value="${colonne.date}" />
+		<property name="colonneDebutPeriode" value="${colonne.debut.periode}" />
+		<property name="colonneFinPeriode" value="${colonne.fin.periode}" />
+		<property name="colonneNbrAccesRetraitePeriode" value="${colonne.nbr.acces.retraite.periode}" />
+		<property name="colonneRatioAccesRetraiteFcPeriode" value="${colonne.ratio.acces.retraite.fc.periode}" />
+		<property name="colonneNbrComptePeriode" value="${colonne.nbr.compte.periode}" />
+		<property name="colonneNbrCompteLocauxPeriode" value="${colonne.nbr.compte.locaux.periode}" />
+		<property name="colonneNbrCompteFcPeriode" value="${colonne.nbr.compte.fc.periode}" />
+		<property name="colonneRatioCompteFcPeriode" value="${colonne.ratio.compte.fc.periode}" />
+		<property name="colonneNbrCompteSuppPeriode" value="${colonne.nbr.compte.supp.periode}" />
+		<property name="colonneNbrCompteHommePeriode" value="${colonne.nbr.compte.homme.periode}" />
+		<property name="colonneNbrCompteFemmePeriode" value="${colonne.nbr.compte.femme.periode}" />
+		
+		<property name="colonneRatioCompteHommePeriode" value="${colonne.ratio.compte.homme.periode}" />
+		<property name="colonneRatioCompteFemmePeriode" value="${colonne.ratio.compte.femme.periode}" />
+		<property name="colonneRatioCompteMoin45Periode" value="${colonne.ratio.compte.moin.45.periode}" />
+		<property name="colonneNbrCompteMoin45Global" value="${colonne.nbr.compte.moin.45.global}" />
+		<property name="colonneRatioCompteEntre4555Periode" value="${colonne.ratio.compte.entre.45.55.periode}" />
+		<property name="colonneNbrCompteEntre4555Global" value="${colonne.nbr.compte.entre.45.55.global}" />
+		
+		
+		<property name="colonneRatioComptePlus55Periode" value="${colonne.ratio.compte.plus.55.periode}" />
+		<property name="colonneNbrComptePlus55Global" value="${colonne.nbr.compte.plus.55.global}" />
+		
+		<property name="colonneNbrTransFcPeriode" value="${colonne.nbr.trans.fc.periode}" />
+		<property name="colonneNbrCompteGlobal" value="${colonne.nbr.compte.global}" />
+		<property name="colonneNbrCompteLocauxGlobal" value="${colonne.nbr.compte.locaux.global}" />
+		<property name="colonneNbrCompteFcGlobal" value="${colonne.nbr.compte.fc.global}" />
+		<property name="colonneRatioCompteFcGlobal" value="${colonne.ratio.compte.fc.global}" />
+		<property name="colonneNbrCompteSuppGlobal" value="${colonne.nbr.compte.supp.global}" />
+		<property name="colonneRatioCompteHommeGlobal" value="${colonne.ratio.compte.homme.global}" />
+		<property name="colonneRatioCompteFemmeGlobal" value="${colonne.ratio.compte.femme.global}" />
+		<property name="colonneNbrCompteHommeGlobal" value="${colonne.nbr.compte.homme.global}" />
+		<property name="colonneNbrCompteFemmeGlobal" value="${colonne.nbr.compte.femme.global}" />
+		
+		<property name="colonneRatioCompteMoin45Global" value="${colonne.ratio.compte.moin.45.global}" />
+		<property name="colonneNbrCompteMoin45Periode" value="${colonne.nbr.compte.moin.45.periode}" />
+		<property name="colonneNbrCompteEntre4555Periode" value="${colonne.nbr.compte.entre.45.55.periode}" />
+		
+		<property name="colonneRatioCompteEntre4555Global" value="${colonne.ratio.compte.entre.45.55.global}" />
+		<property name="colonneRatioComptePlus55Global" value="${colonne.ratio.compte.plus.55.global}" />
+		<property name="colonneNbrComptePlus55Periode" value="${colonne.nbr.compte.plus.55.periode}" />
+		<property name="colonneNbrTransFcGlobal" value="${colonne.nbr.trans.fc.global}" />
+	</bean>
+
+	<bean id="resultReader" class="cnav.gipur.pci.generator.stat.batch.reader.ResultReader"
+		scope="step">
+		<property name="statistic" ref="statistic" />
+	</bean>
+	<!-- listener -->
+	<bean id="errorStatus" class="org.springframework.batch.core.ExitStatus">
+		<constructor-arg value="${batch.status.code.error}" />
+		<constructor-arg value="${batch.status.description.error}" />
+	</bean>
+	<bean id="reportStatus" class="org.springframework.batch.core.ExitStatus">
+		<constructor-arg value="${batch.status.code.report}" />
+		<constructor-arg value="${batch.status.description.report}" />
+	</bean>
+	<bean id="successStatus" class="org.springframework.batch.core.ExitStatus">
+		<constructor-arg value="${batch.status.code.success}" />
+		<constructor-arg value="${batch.status.description.success}" />
+	</bean>
+
+
+	<bean id="profilListener"
+		class="cnav.gipur.pci.generator.stat.batch.listener.StatJobExecutionListener">
+		<property name="error" ref="errorStatus" />
+		<property name="report" ref="reportStatus" />
+		<property name="success" ref="successStatus" />
+	</bean>
+
+
+
+	<!-- etapes et batch -->
+
+	<!-- Step Parent -->
+	<b:step id="parentStep" abstract="true">
+		<b:listeners>
+			<b:listener ref="profilListener" />
+		</b:listeners>
+	</b:step>
+
+	<b:step id="readnProcessStep" parent="parentStep">
+		<b:tasklet>
+		<b:chunk reader="profilReader" processor="statProcessor" commit-interval="${query.list.assure.pagination.size}"/>
+				
+		</b:tasklet>
+	</b:step>
+
+	<b:step id="writeStep" parent="parentStep">
+		<b:tasklet>
+			<b:chunk reader="resultReader" writer="cvsMapFileItemWriter" />
+		</b:tasklet>
+	</b:step>
+
+	<!-- job -->
+	<b:job id="exampleJob" incrementer="idIncrementer">
+		<b:step id="step1" parent="readnProcessStep" next="step2" />
+		<b:step id="step2" parent="writeStep" />
+		<b:listeners>
+			<b:listener ref="profilListener" />
+		</b:listeners>
+	</b:job>
+</beans>

@@ -1,0 +1,25 @@
+===============================================================================
+  FICHIER : xxxxxxxxxxxxxxxxxxxxx
+
+  DESCRIPTION FONCTIONNELLE
+
+  Script de lancement du batch de xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  SYNTAXE D'APPEL
+
+   xxxxxxxxsxxxxxxxxxxxxxxxxxxxxxxxx.ksh xxxxx xxxx ...
+
+  		Les paramètres
+
+   		- xxxxxxxxxxxxxxxxxxxx : ......
+	
+
+  CODE RETOUR
+
+    0 		OK
+    Autre  ERREUR
+
+	Pour AIX :  
+	La variable BASEDIR doit etre définie en dehors du ksh
+    Elle precise le repertoire dans lequel l'applicatif a ete installe
+===============================================================================

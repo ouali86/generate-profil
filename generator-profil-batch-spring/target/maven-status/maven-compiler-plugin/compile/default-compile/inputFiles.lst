@@ -1,0 +1,8 @@
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\processor\StatProcessor.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\writer\CvsMapFileItemWriter.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\mapper\UserDtoRowMapper.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\mapper\ReponseIapDtoRowMapper.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\reader\StatReader.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\listener\StatJobExecutionListener.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\reader\ResultReader.java
+D:\workspace\generator-profil-batch\generator-profil-batch-spring\src\main\java\cnav\gipur\pci\generator\stat\batch\writer\StatFlatFileHeaderCallback.java
