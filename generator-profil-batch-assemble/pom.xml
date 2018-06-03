@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>cnav.gipur.pci.batch</groupId>
+    <artifactId>generator-profil-batch</artifactId>
+    <version>1.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>generator-profil-batch-assemble</artifactId>
+  <version>1.7-SNAPSHOT</version>
+  <name>generator-profil-batch-assemble</name>
+  
+  <dependencyManagement>
+    <dependencies>
+
+        <dependency> 
+        <groupId>cnav.gipur.pci.batch</groupId> 
+        <artifactId>generator-profil-batch-core</artifactId>
+        <version>1.7-SNAPSHOT</version>
+        </dependency>
+
+        <dependency> 
+        <groupId>cnav.gipur.pci.batch</groupId> 
+        <artifactId>generator-profil-batch-conf</artifactId>
+        <version>1.7-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency> 
+        <groupId>cnav.gipur.pci.batch</groupId> 
+        <artifactId>generator-profil-batch-spring</artifactId>
+        <version>1.7-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    </dependencyManagement>
+        
+
+   <build>
+    <plugins>
+    
+    <!-- on assemble les properties et jar -->
+    
+      <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <executions>
+        <execution>
+          <id>assembly-stub</id>
+          <phase>deploy</phase>
+       <goals>
+          <goal>single</goal>
+        </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <descriptors>
+          <descriptor>src/assembly/assemblage.xml</descriptor>
+          <descriptor>src/assembly/archivage-jar.xml</descriptor>
+          <descriptor>src/assembly/archivage-properties.xml</descriptor>
+        </descriptors>
+      </configuration>
+    </plugin>
+    
+    </plugins>
+  </build>
+  
+  
+</project>
