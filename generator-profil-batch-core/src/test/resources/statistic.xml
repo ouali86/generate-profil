@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/util
+         http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- DEBUT DATES -->
+	<bean id="currentDate" class="java.util.Date" />
+	<bean id="dateFormaterForFileName" class="java.text.SimpleDateFormat">
+		<constructor-arg value="ddMMyyyy" />
+	</bean>
+	<bean id="currentDateFormated" class="java.lang.String"
+		factory-bean="dateFormaterForFileName" factory-method="format">
+		<constructor-arg ref="currentDate" />
+	</bean>
+	<bean id="currentDateTime" class="org.joda.time.DateTime">
+		<constructor-arg ref="currentDate" />
+	</bean>
+	<bean id="toDateTime" class="org.joda.time.DateTime" factory-bean="currentDateTime"
+		factory-method="withTime">
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>0</value>
+		</constructor-arg>
+	</bean>
+	<bean id="fromDateTime" class="org.joda.time.DateTime"
+		factory-bean="toDateTime" factory-method="minusDays">
+		<constructor-arg value="7" />
+	</bean>
+	<bean id="fromDate" class="java.util.Date" factory-bean="fromDateTime"
+		factory-method="toDate" />
+	<bean id="toDate" class="java.util.Date" factory-bean="toDateTime"
+		factory-method="toDate" />
+	<!-- FIN DATES -->
+
+	<bean id="statistic" class="cnav.gipur.pci.batch.profil.impl.StatisticImpl"
+		scope="singleton">
+		<property name="currentDate" ref="currentDate" />
+		<property name="fromDate" value="#{fromDate}" />
+		<property name="toDate" value="#{toDate}" />
+		<property name="period" value="7" />
+		<property name="nbrAccesComptePeriod" value="0" />
+		<property name="nbrAccesCompteFcPeriod" value="0" />
+		<property name="nbrComptePeriod" value="0" />
+		<property name="nbrCompteLocauxPeriod" value="0" />
+		<property name="nbrCompteFcPeriod" value="0" />
+		<property name="nbrCompteSuppPeriod" value="0" />
+		<property name="nbrCompteHommePeriod" value="0" />
+		<property name="nbrCompteFemmePeriod" value="0" />
+		<property name="nbrCompteMoin45Period" value="0" />
+		<property name="nbrCompteEntre4555Period" value="0" />
+		<property name="nbrComptePlus55Period" value="0" />
+		<property name="nbrTransFcPeriod" value="0" />
+		<property name="nbrCompteGlobal" value="0" />
+		<property name="nbrCompteLocauxGlobal" value="0" />
+		<property name="nbrCompteFcGlobal" value="0" />
+		<property name="nbrCompteSuppGlobal" value="0" />
+		<property name="nbrCompteHommeGlobal" value="0" />
+		<property name="nbrCompteFemmeGlobal" value="0" />
+		<property name="nbrCompteMoin45Global" value="0" />
+		<property name="nbrCompteEntre4555Global" value="0" />
+		<property name="nbrComptePlus55Global" value="0" />
+		<property name="nbrTransFcGlobal" value="0" />
+	</bean>
+
+</beans>

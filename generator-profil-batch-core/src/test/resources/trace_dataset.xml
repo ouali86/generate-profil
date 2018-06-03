@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<tpcittrace idtrace="1" idutilisateur="1234567891234" datecreation="2016-06-13 14:02:00.013" commentaire="commentaire" 
+	 decision="OK" domaine="Inscription" evenement="Transformation compte PCI / FC niv 2" flux="Entrant" media="Internet" sousdomaine="Migration vers compte FC avec succès"/>
+	 <tpcittrace idtrace="2" idutilisateur="1234567891234" datecreation="2016-06-15 14:02:00.013" commentaire="commentaire" 
+	 decision="OK" domaine="Inscription" evenement="Transformation compte PCI / FC niv 2" flux="Entrant" media="Internet" sousdomaine="Migration vers compte FC avec succès"/>
+	 <tpcittrace idtrace="3" idutilisateur="1234567891234" datecreation="2016-06-14 14:02:00.013" commentaire="commentaire" 
+	 decision="OK" domaine="Inscription" evenement="Transformation compte PCI / FC niv 2" flux="Entrant" media="Internet" sousdomaine="Migration vers compte FC avec succès"/>
+	 
+	 <tpcittrace idtrace="4" idutilisateur="1234567891234" datecreation="2016-06-14 14:02:00.013" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion" flux="Entrant" media="Internet" sousdomaine=" "/>
+	 <tpcittrace idtrace="5" idutilisateur="1234567891234" datecreation="2017-03-01 00:00:00.000" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion" flux="Entrant" media="Internet" sousdomaine=" "/>
+	 <tpcittrace idtrace="6" idutilisateur="1234567891234" datecreation="2017-03-01 00:00:00.000" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion" flux="Entrant" media="Internet" sousdomaine=" "/>
+	 <tpcittrace idtrace="7" idutilisateur="1234567891234" datecreation="2017-03-01 00:00:00.000" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion FC" flux="Entrant" media="Internet" sousdomaine="Authentification FC"/>
+	 
+	 <tpcittrace idtrace="8" idutilisateur="1234567891236" datecreation="2016-06-14 14:02:00.013" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion" flux="Entrant" media="Internet" sousdomaine=" "/>
+	 <tpcittrace idtrace="9" idutilisateur="1234567891236" datecreation="2017-03-01 00:00:00.000" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion" flux="Entrant" media="Internet" sousdomaine=" "/>
+	 <tpcittrace idtrace="10" idutilisateur="1234567891235" datecreation="2017-03-01 00:00:00.000" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion" flux="Entrant" media="Internet" sousdomaine=" "/>
+	 <tpcittrace idtrace="11" idutilisateur="1234567891236" datecreation="2017-03-01 00:00:00.000" commentaire="commentaire" 
+	 decision="OK" domaine="Authentification" evenement="Connexion FC" flux="Entrant" media="Internet" sousdomaine="Authentification FC"/>
+	 
+</dataset>
