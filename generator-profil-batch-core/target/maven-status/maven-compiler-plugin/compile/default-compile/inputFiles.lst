@@ -1,0 +1,13 @@
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\statistic\Statistic.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\exceptions\TechnicalException.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\model\ReponseIapDTO.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\statistic\impl\StatisticImpl.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\utils\TypeCompte.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\utils\CSVUtils.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\model\StatDTO.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\repository\impl\JdbcRepositoryImpl.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\repository\JdbcRepository.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\utils\TypeConnexion.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\model\UserDTO.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\utils\PciDate.java
+D:\workspace\generator-profil-batch\generator-profil-batch-core\src\main\java\cnav\gipur\pci\batch\exceptions\BuisinessException.java
