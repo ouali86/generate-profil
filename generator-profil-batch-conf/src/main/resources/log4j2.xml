@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+
+	<Properties>
+		<Property name="log-path">./log</Property>
+	</Properties>
+
+	<Appenders>
+
+		<RollingRandomAccessFile name="file"
+			fileName="./log/stat-batch-trace.log" filePattern="./log/stat-batch-trace-%d{yyyy-MM-dd}.log">
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5p] %C{1} %M [%L]: %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="6"
+					modulate="true" />
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingRandomAccessFile>
+
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5p] %C{1} %M [%L]: %msg%n" />
+		</Console>
+
+	</Appenders>
+
+	<Loggers>
+		<Root level="DEBUG">
+			<appender-ref ref="file" level="INFO" />
+			<appender-ref ref="file" level="DEBUG" />
+			<appender-ref ref="console" level="ERROR" />
+		</Root>
+	</Loggers>
+
+</Configuration>
